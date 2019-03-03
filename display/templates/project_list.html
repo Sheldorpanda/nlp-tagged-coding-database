@@ -1,0 +1,177 @@
+<!--<h1>Project</h1>-->
+<!--<ul>-->
+<!--{% for project in projects %}-->
+    <!--<p>Link:{{project.link}} </p>-->
+    <!--<b> Level:{{project.Level}}</b>-->
+    <!--<b> Language:{{project.Language}}</b>-->
+    <!--<b> Popularity:{{project.Popularity}}</b>-->
+    <!--<b> Legit:{{project.Legit}}</b>-->
+<!--{% endfor %}-->
+<!--</ul>-->
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+	<title>Project Table</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+<div class="site-blocks-cover" style="background-image: url(static/img/library_2.png);"
+     data-stellar-background-ratio="0.5">
+    <div class="container">
+        <div class="row row-custom align-items-center">
+            <div class="col-md-10">
+                <div class="book-search">
+                    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active py-3" id="pills-book-tab"
+                               role="tab" aria-controls="pills-book" aria-selected="t">Find A Project</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content bg-white p-4 rounded" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="pills-book" role="tabpanel"
+                             aria-labelledby="pills-book-tab">
+                            <form action="{% url 'search_result' %}" method="get">
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-2 mb-3 mb-lg-0">
+                                        <div class="select-wrap">
+                                            <span class="icon-keyboard_arrow_down arrow-down"></span>
+                                            <select name="Level" id="1" class="form-control">
+                                                <option>Advanced</option>
+                                                <option>Intermediate</option>
+                                                <option>Beginner</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-2 mb-3 mb-lg-0">
+                                        <div class="select-wrap">
+                                            <span class="icon-keyboard_arrow_down arrow-down"></span>
+                                            <select name="Language" id="2" class="form-control">
+                                                <option>Python</option>
+                                                <option>Java</option>
+                                                <option>C++</option>
+                                                <option>Javascript</option>
+                                                <option>php</option>
+                                                <option>R</option>
+                                                <option>Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                                        <div class="select-wrap">
+                                            <span class="icon-keyboard_arrow_down arrow-down"></span>
+                                            <select name="Popularity" id="3" class="form-control">
+                                                <option>Very Popular</option>
+                                                <option>Active</option>
+												 <option>Some commits</option>
+                                                <option>Inactive</option>
+                                                <option>Inactive for a Long Time</option>
+                                            </select>
+                                        </div>
+                                    </div>
+									<div class="col-md-6 col-lg-2 mb-3 mb-lg-0">
+                                        <div class="select-wrap">
+                                            <span class="icon-keyboard_arrow_down arrow-down"></span>
+                                            <select name="Legit" id="4" class="form-control">
+                                                <option>5</option>
+                                                <option>4</option>
+                                                <option>3</option>
+                                                <option>2</option>
+                                                <option>1</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-lg-3 mb-3 mb-lg-0">
+                                        {% csrf_token %}
+                                        <!--For some reason it displays value an searches on it-->
+                                        <input type="submit" class="btn btn-primary btn-block" method="GET"
+                                               name="usr_query" value='Search' action="{% url 'search_result' %}">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100 ver1 m-b-110">
+					<div class="table100-head">
+						<table>
+							<thead>
+								<tr class="row100 head">
+									<th class="cell100 column1">Link</th>
+									<th class="cell100 column5">Level</th>
+									<th class="cell100 column5">Language</th>
+									<th class="cell100 column5">Popularity</th>
+									<th class="cell100 column5">Legit (1-5)</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+
+					<div class="table100-body js-pscroll">
+						<table>
+							<tbody>
+							{% for project in projects %}
+								<tr class="row100 body">
+									<td class="cell100 column1">{{project.link}}</td>
+									<td class="cell100 column5">{{project.Level}}</td>
+									<td class="cell100 column5">{{project.Language}}</td>
+									<td class="cell100 column5">{{project.Popularity}}</td>
+									<td class="cell100 column5">{{project.Legit}}</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'vendor/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+	<script>
+		$('.js-pscroll').each(function(){
+			var ps = new PerfectScrollbar(this);
+
+			$(window).on('resize', function(){
+				ps.update();
+			})
+		});
+
+
+	</script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+</body>
+</html>
