@@ -1,1 +1,2 @@
-web: gunicorn hackathon.wsgi:application --logfile - 
+release:python manage.py migrate
+web: gunicorn hackathon.wsgi 
